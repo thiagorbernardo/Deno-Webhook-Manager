@@ -13,7 +13,7 @@ router.post("/", async ({ request, response }: Context) => {
     body: JSON.stringify(await request.body().value)
   };
 
-  await fetch(discordUrl, params);
+  // await fetch(discordUrl, params);
   response.status = 201
 });
 

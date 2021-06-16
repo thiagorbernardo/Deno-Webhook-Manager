@@ -8,6 +8,11 @@ router.get("/healthcheck", ({ response }: Context): void => {
     response.body = "OK!";
 });
 
+router.post("/test", ({ response }: Context): void => {
+    console.log('here')
+    response.body = "OK!";
+});
+
 router.use("/github", Github.routes(), Github.allowedMethods());
 
 export default router;
