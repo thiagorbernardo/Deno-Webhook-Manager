@@ -9,7 +9,7 @@ router.get("/healthcheck", ({ response }: Context): void => {
 });
 
 router.post("/test", async ({ response, request }: Context) => {
-    console.log(`Has body: ${request.hasBody} value: ${await request.body().value}`)
+    console.log(`Has body: ${request.hasBody} value: ${JSON.stringify(await request.body().value)}`)
     response.body = "OK!";
 });
 
