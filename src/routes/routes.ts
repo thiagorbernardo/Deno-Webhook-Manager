@@ -8,8 +8,8 @@ router.get("/healthcheck", ({ response }: Context): void => {
     response.body = "OK!";
 });
 
-router.post("/test", ({ response }: Context): void => {
-    console.log('here')
+router.post("/test", async ({ response, request }: Context) => {
+    console.log(`Has body: ${request.hasBody} value: ${await request.body().value}`)
     response.body = "OK!";
 });
 
