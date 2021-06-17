@@ -3,12 +3,11 @@ import * as flags from "https://deno.land/std/flags/mod.ts";
 
 const { args } = Deno;
 
-console.log(flags.parse(args))
-const parsedFlags = flags.parse(args)
+const parsedFlags = flags.parse(args);
 
 export const envs = ({
   HOSTNAME: config().HOSTNAME ?? "http://localhost",
   NOTIFICATIONS: config().NOTIFICATIONS ?? parsedFlags.notifications,
-  GENERAL: config().GENERAL  ?? parsedFlags.general,
+  GENERAL: config().GENERAL ?? parsedFlags.general,
   PORT: Number(flags.parse(args).port ?? 8080),
 });
