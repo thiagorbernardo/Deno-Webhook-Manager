@@ -5,5 +5,7 @@ const { args } = Deno;
 
 export const envs = ({
   HOSTNAME: config().HOSTNAME ?? "http://localhost",
+  NOTIFICATIONS: config().NOTIFICATIONS,
+  GENERAL: config().GENERAL,
   PORT: Number(flags.parse(args).port ?? 8080),
 });
