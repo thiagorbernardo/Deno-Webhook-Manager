@@ -8,7 +8,7 @@ const parsedFlags = flags.parse(args)
 
 export const envs = ({
   HOSTNAME: config().HOSTNAME ?? "http://localhost",
-  NOTIFICATIONS: config().NOTIFICATIONS ?? parsedFlags.NOTIFICATIONS,
-  GENERAL: config().GENERAL  ?? parsedFlags.GENERAL,
+  NOTIFICATIONS: config().NOTIFICATIONS ?? parsedFlags.notifications,
+  GENERAL: config().GENERAL  ?? parsedFlags.general,
   PORT: Number(flags.parse(args).port ?? 8080),
 });
