@@ -10,6 +10,6 @@ export const registerDailyCrons = () => {
       content:
         `Vai começar a daily!\n${Roles.sarg} ${Roles.devs} ${Roles.design} ${Roles.qa}\nhttps://meet.google.com/zzs-qzfs-pmm`,
       ...Discord.getDiscordMessageBot(),
-    }, Channel.notifications);
+    }, Channel.geral);
   });
 };
