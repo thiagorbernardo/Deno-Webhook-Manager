@@ -1,7 +1,7 @@
 import { cron } from 'https://deno.land/x/deno_cron/cron.ts';
 
 import { Channel, Roles } from './../enum/DiscordServer.ts';
-import Discord from './../controller/Discord.ts';
+import Discord from '../controller/Discord.ts';
 
 export const registerDailyCrons = () => {
     // cron("*/5 * * * * *", async () => { // test
