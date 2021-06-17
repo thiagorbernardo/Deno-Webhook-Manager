@@ -1,21 +1,23 @@
+import { GithubPayload } from "./../models/Github.ts";
 import { DiscordMessage } from "./../models/Discord.ts";
 import { Context, Router } from "https://deno.land/x/oak/mod.ts";
 
 import Discord from "../controller/Discord.ts";
-import { Bots, Channel } from "./../enum/DiscordServer.ts";
+import { Bots, Channel } from "../enum/DiscordServer.ts";
 
 const router = new Router();
 
 router.post("/", async ({ request, response }: Context) => {
-  if (!request.hasBody) {
-    response.status = 400;
-    response.body = "Body is empty";
-  }
+  // const text = await Deno.readTextFile("./github.json");
+  // const payload: GithubPayload = JSON.parse(text);
+  const payload: GithubPayload = await request.body().value;
 
   try {
     const message: DiscordMessage = {
-      content: "Teste Github",
       ...Discord.getDiscordMessageBot(Bots.github),
+      embeds: [
+        Discord.getGithubEmbed(payload),
+      ],
     };
     const res = await Discord.sendDiscordMessage(
       message,
