@@ -1,29 +1,18 @@
 import { Bots, Channel } from "./../enum/DiscordServer.ts";
 import { DiscordMessage } from "./../models/Discord.ts";
+import { envs } from "../settings.ts";
+import { HttpClient } from "./HttpClient.ts";
 
 class Discord {
-  private readonly githubNotifications =
-    "https://discordapp.com/api/webhooks/852911931340619857/wXqxVCXzl9DunFbLkpFYa_QeCtaxW17CBSJjKAYPtActwseMOST6joXy86nev-n2vFHg";
-  private readonly cronNotifications =
-    "https://discord.com/api/webhooks/854822970279460875/emsTiya3IOoAyaR_o01yEzahsjleO6OTLt25YLAivqPkkN4VQekKl726bHdx6VMLUrIH";
-  private readonly headers = {
-    "Content-Type": "application/json",
-  };
+  private readonly Notificator = new HttpClient(envs.NOTIFICATIONS);
+  private readonly CronNotificator = new HttpClient(envs.GENERAL);
 
   async sendDiscordMessage(message: DiscordMessage, channel: Channel) {
-    const params: RequestInit = {
-      headers: this.headers,
-      method: "POST",
-      body: JSON.stringify(message),
-    };
-
     switch (channel) {
-      case Channel.notifications:
-        return await fetch(this.githubNotifications, params);
       case Channel.geral:
-        return await fetch(this.githubNotifications, params);
+        return await this.CronNotificator.post(JSON.stringify(message));
       default:
-        return await fetch(this.githubNotifications, params);
+        return await this.Notificator.post(JSON.stringify(message));
     }
   }
 
