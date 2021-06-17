@@ -1,20 +1,20 @@
 export interface DiscordMessage {
   username?: string;
   "avatar_url"?: string;
-  content: string;
+  content?: string;
   embeds?: Embed[];
 }
 
 export interface Embed {
-  author: Author;
+  author?: Author;
   title: string;
-  url: string;
-  description: string;
+  url?: string;
+  description?: string;
   color: number;
-  fields: Field[];
-  thumbnail: Image;
-  image: Image;
-  footer: Footer;
+  fields?: Field[];
+  thumbnail?: Image;
+  image?: Image;
+  footer?: Footer;
 }
 
 export interface Author {

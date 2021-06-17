@@ -1,7 +1,11 @@
 import { Bots, Channel } from "./../enum/DiscordServer.ts";
-import { DiscordMessage } from "./../models/Discord.ts";
+import { DiscordMessage, Embed } from "./../models/Discord.ts";
 import { envs } from "../settings.ts";
 import { HttpClient } from "./HttpClient.ts";
+
+import { GithubPayload } from "./../models/Github.ts";
+import { Contributors } from "../enum/Contributors.ts";
+import { Actions, ActionsColors } from "../enum/Actions.ts";
 
 class Discord {
   private readonly Notificator = new HttpClient(envs.NOTIFICATIONS);
@@ -36,6 +40,39 @@ class Discord {
           "avatar_url": "https://avatars.githubusercontent.com/u/51447939?v=4",
         };
     }
+  }
+  getGithubEmbed(payload: GithubPayload): Embed {
+    const action = Actions[payload.action as keyof typeof Actions];
+    const repositoryHyperLink =
+      `[${payload.repository.name}](${payload.repository.html_url})`;
+    const description = action === Actions.review_requested
+      ? `${payload.sender.login} ${action} no ${repositoryHyperLink}`
+      : `PR ${action} do ${repositoryHyperLink}`;
+    return {
+      title: payload.pull_request.title,
+      description,
+      url: payload.pull_request.html_url,
+      author: {
+        name: payload.sender.login,
+        url: payload.sender.url,
+        icon_url: payload.sender.avatar_url,
+      },
+      color: ActionsColors[payload.action as keyof typeof ActionsColors],
+      fields: [
+        {
+          name: "Reviewers",
+          value: payload.pull_request.requested_reviewers.map((reviewer) =>
+            Contributors[reviewer.login as keyof typeof Contributors]
+          ).join("\n\n"),
+          inline: true,
+        },
+        {
+          name: "Labels",
+          value: payload.pull_request.labels.map((label) => label.name).join(", "),
+          inline: true,
+        },
+      ],
+    };
   }
 }
 
