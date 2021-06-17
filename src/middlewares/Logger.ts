@@ -7,8 +7,8 @@ export const Logger = async (ctx: Context, next: () => any) => {
   const log = {
     method: ctx.request.method,
     url: ctx.request.url,
-    body: await ctx.request.body().value
-  }
-  console.log(JSON.stringify(log))
+    body: await ctx.request.body().value,
+  };
+  console.log(JSON.stringify(log));
   // console.log(`${ctx.request.method} ${ctx.request.url}`);
 };
