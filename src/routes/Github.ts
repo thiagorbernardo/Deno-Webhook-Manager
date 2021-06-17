@@ -1,7 +1,8 @@
+import { DiscordMessage } from './../models/Discord.ts';
 import { Context, Router } from "https://deno.land/x/oak/mod.ts";
 
-import Discord from './../controller/discord.ts';
-import { Channel } from './../enum/Channels.ts';
+import Discord from '../controller/Discord.ts';
+import { Channel, Bots } from './../enum/DiscordServer.ts';
 
 const router = new Router();
 
@@ -12,7 +13,11 @@ router.post("/", async ({ request, response }: Context) => {
   }
 
   try {
-    const res = await Discord.sendDiscordMessage(await request.body().value, Channel.notifications)
+    const message: DiscordMessage = {
+      content: 'Teste Github',
+      ...Discord.getDiscordMessageBot(Bots.github)
+    }
+    const res = await Discord.sendDiscordMessage(message, Channel.notifications)
     response.status = res.status
 
   } catch (error) {
