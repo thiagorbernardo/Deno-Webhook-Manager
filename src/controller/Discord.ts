@@ -41,13 +41,16 @@ class Discord {
         };
     }
   }
-  getGithubEmbed(payload: GithubPayload): Embed {
+  getGithubEmbedFromPR(payload: GithubPayload): Embed {
     const action = Actions[payload.action as keyof typeof Actions];
+
     const repositoryHyperLink =
       `[${payload.repository.name}](${payload.repository.html_url})`;
+    
     const description = action === Actions.review_requested
       ? `${payload.sender.login} ${action} no ${repositoryHyperLink}`
       : `PR ${action} do ${repositoryHyperLink}`;
+    
     return {
       title: payload.pull_request.title,
       description,
@@ -68,7 +71,9 @@ class Discord {
         },
         {
           name: "Labels",
-          value: payload.pull_request.labels.map((label) => label.name).join(", "),
+          value: payload.pull_request.labels.map((label) => label.name).join(
+            ", ",
+          ),
           inline: true,
         },
       ],

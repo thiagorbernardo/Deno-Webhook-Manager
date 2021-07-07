@@ -8,17 +8,16 @@ import { Bots, Channel } from "../enum/DiscordServer.ts";
 const router = new Router();
 
 router.post("/", async ({ request, response }: Context) => {
-  // const text = await Deno.readTextFile("./github.json");
-  // const payload: GithubPayload = JSON.parse(text);
   const payload: GithubPayload = await request.body().value;
 
   try {
     const message: DiscordMessage = {
       ...Discord.getDiscordMessageBot(Bots.github),
       embeds: [
-        Discord.getGithubEmbed(payload),
+        Discord.getGithubEmbedFromPR(payload),
       ],
     };
+
     const res = await Discord.sendDiscordMessage(
       message,
       Channel.notifications,
